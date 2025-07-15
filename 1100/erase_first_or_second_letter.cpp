@@ -7,32 +7,34 @@ using namespace std;
 #define rep(i, a, b) for(int i = a; i < b; i++)
 
 void solve() {
-    ll n, b, k, s;
-    cin >> n >> k >> b >> s;
+    int n;
+    cin >> n;
+    
+    string s;
+    cin >> s;
 
-    ll start = b * k, end = start + (n * (k - 1));
-
-    if(s < start || s > end){
-        cout << -1 << endl;
+    if(n == 1){
+        cout << n << endl;
         return;
     }
 
-    vector<ll> ans(n);
+    unordered_map<char, int> count;
+    vector<int> unique(n);
 
-    ll remain = s - start;
-    ll temp = start + min(k - 1, remain);
-    remain -= min(k - 1, remain);
-
-    cout << temp << " ";
+    count[s[0]]++;
+    unique[0] = 1;
 
     for(int i = 1; i < n; i++){
-        temp = min(k - 1, remain);
-        remain -= temp;
-
-        cout << temp << " ";
+        count[s[i]]++;
+        unique[i] = count.size();
     }
 
-    cout << endl;
+    int ans = 0;
+    for(int i = n - 1; i >= 1; i--){
+        ans += unique[i - 1];
+    }
+
+    cout << ans + unique[n - 1] << endl;
 }
 
 int main() {
